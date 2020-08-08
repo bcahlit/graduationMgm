@@ -62,8 +62,10 @@ class Agent():
         BLOCK = hfo.CATCH
         self.actions = [hfo.MOVE, hfo.GO_TO_BALL, hfo.DEFEND_GOAL, BLOCK]
         self.rewards = [0, 0, 0, 0]
-        self.hfo_env = HFOEnv(self.actions, self.rewards,
-                              strict=True, port=port, team=team)
+        self.hfo_env = HFOEnv(is_offensive=False, play_goalie=False,
+                             port=port, continuous=False,
+                             team=team)
+        self.hfo_env.set_env(self.actions, self.rewards, strict=True)
         self.test = False
         self.gen_mem = True
         self.unum = self.hfo_env.getUnum()
