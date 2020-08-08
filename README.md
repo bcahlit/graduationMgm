@@ -1,5 +1,9 @@
 # Comparing DQN, Dueling Double DQN and Deep Deterministic Policy Gradient applied to Robocup Soccer Simulation 2D
 
+ddpg and dqn can't run well. you can run that to back old version.
+```shell
+git reset 721c1f8f539d1e014a0be3ffeb26132734f7c6a4
+```
 This work is designed to help RoboCIn team.
 Inside you'll find codes comparing each technique.
 
