@@ -5,12 +5,34 @@ Inside you'll find codes comparing each technique.
 
 For 3000 test episodes:
 
-100k training dqn -> 52.2% defenses against Helios2013
-100k training dqn -> 52.2% defenses against RoboCIn2019
+ - Helios2013 vs Helios2013 -> 77,5% defenses of Helios2013
+ - RoboCIn2019 vs Helios2013 -> 77.4% defenses of Helios2013
+ - Helios2013 vs RoboCIn2019 -> 71% defenses of RoboCIn2019
+ - RoboCIn2019 vs RoboCIn2019 -> 53.3% defenses of RoboCIn2019
 
-100k training ddqn -> 55% defenses against Helios2013
-100k training ddqn -> 55% defenses against RoboCIn2019
+100k training dqn:
+ - With Helios2013 goalie:
+    - 52.2% defenses against Helios2013
+    - 74% defenses against RoboCIn2019
 
-100k training ddpg -> 30.2% defenses against Helios2013
-100k training ddpg -> 30.2% defenses against RoboCIn2019
+ - With RoboCIn2019 goalie:
+    - 51.3% defenses against Helios2013
+    - 80% defenses against RoboCIn2019
 
+100k training ddqn:
+ - With Helios2013 goalie:
+    - 55% defenses against Helios2013
+    - 70.3% defenses against RoboCIn2019
+
+ - With RoboCIn2019 goalie:
+    - 49.3% defenses against Helios2013
+    - 57.1% defenses against RoboCIn2019
+
+100k training ddpg:
+ - With Helios2013 goalie:
+    - 30.2% defenses against Helios2013
+    - 65.8% defenses against RoboCIn2019
+
+ - With RoboCIn2019 goalie:
+    - 10.2% defenses against Helios2013
+    - 35.7% defenses against RoboCIn2019
