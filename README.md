@@ -7,6 +7,14 @@ git reset 721c1f8f539d1e014a0be3ffeb26132734f7c6a4
 This work is designed to help RoboCIn team.
 Inside you'll find codes comparing each technique.
 
+100k training result.
+![image](https://github.com/bcahlit/graduationMgm/blob/master/images/heliosvshelios1_1_1_ddpg.png)
+use ddpg command param : heliosvshelios  HFO param is 1 1 1
+![image](https://github.com/bcahlit/graduationMgm/blob/master/images/heliosvshelios1_1_1_ddqn.png)
+use ddqn command param : heliosvshelios  HFO param is 1 1 1
+![image](https://github.com/bcahlit/graduationMgm/blob/master/images/heliosvshelios1_1_1_dqn.png)
+use dqn command param : heliosvshelios  HFO param is 1 1 1
+
 For 3000 test episodes:
 
  - Helios2013 vs Helios2013 -> 77,5% defenses of Helios2013
