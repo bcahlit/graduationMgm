@@ -36,6 +36,11 @@ class HFOEnv(hfo.HFOEnvironment):
     FEAT_MIN = -1
     FEAT_MAX = 1
     pi = 3.14159265358979323846
+    old_ball_prox = 0
+    old_kickable = 0
+    old_ball_dist_goal = 0
+    got_kickable_reward = False
+    first_step = True
     max_R = np.sqrt(pitchHalfLength * pitchHalfLength +
                     pitchHalfWidth * pitchHalfWidth)
     stamina_max = 8000
@@ -47,10 +52,12 @@ class HFOEnv(hfo.HFOEnvironment):
                  play_goalie=False, port=6000,
                  continuous=False, team='base'):
         super(HFOEnv, self).__init__()
+        print("connectToServer")
         self.connectToServer(hfo.HIGH_LEVEL_FEATURE_SET, './formations-dt',
                              port, 'localhost',
                              team + '_left' if is_offensive else team + '_right',
                              play_goalie=play_goalie)
+        print("before connectToServer")
         self.play_goalie = play_goalie
         self.continuous = continuous
 
@@ -84,12 +91,14 @@ class HFOEnv(hfo.HFOEnvironment):
             action = self.action_space.actions[action]
         else:
             action = action[0]
-            if action < -0.68:
+            if action < -0.5:
                 action = self.action_space.actions[0]
-            elif action < 0.36:
+            elif action < 0:
                 action = self.action_space.actions[1]
-            else:
+            elif action <0.5:
                 action = self.action_space.actions[2]
+            else:
+                action = self.action_space.actions[3]
         self.act(action)
         act = self.action_space.actions.index(action)
         status = super(HFOEnv, self).step()
@@ -112,18 +121,58 @@ class HFOEnv(hfo.HFOEnvironment):
         return state
 
     def get_reward_off(self, act, next_state, done, status):
+        ball_proximity = self.get_ball_dist(status)
+        #  goal_proximity = status[6]
+        #  ball_dist = 1.0 - ball_proximity
+        #  goal_dist = 1.0 - goal_proximity
+        kickable = status[5]
+        # ignore origin to ball reward
+        ball_dist_goal = math.sqrt((52 - status[3])**2 + status[4]*status[4])
+        # Compute the difference in ball proximity from the last step
+        if not self.first_step:
+            ball_prox_delta = ball_proximity - self.old_ball_prox
+            kickable_delta = kickable - self.old_kickable
+            ball_dist_goal_delta = ball_dist_goal - self.old_ball_dist_goal
+        self.old_ball_prox = ball_proximity
+        self.old_kickable = kickable
+        self.old_ball_dist_goal = ball_dist_goal
+        #print(self.env.playerOnBall())
+        #print(self.env.playerOnBall().unum)
+        #print(self.env.getUnum())
         reward = 0
+        if not self.first_step:
+            '''# Reward the agent for moving towards the ball
+            reward += ball_prox_delta
+            if kickable_delta > 0 and not self.got_kickable_reward:
+                reward += 1.
+                self.got_kickable_reward = True
+            # Reward the agent for kicking towards the goal
+            reward += 0.6 * -ball_dist_goal_delta
+            # Reward the agent for scoring
+            if self.status == hfo_py.GOAL:
+                reward += 5.0'''
+            '''reward = self.__move_to_ball_reward(kickable_delta, ball_prox_delta) + \
+                    3. * self.__kick_to_goal_reward(ball_dist_goal_delta) + \
+                    self.__EOT_reward();'''
+            mtb = self.__move_to_ball_reward(kickable_delta, ball_prox_delta)
+            ktg = 3. * self.__kick_to_goal_reward(ball_dist_goal_delta)
+            reward = reward + mtb
+            #  ktg = 3. * self.__kick_to_goal_reward(ball_dist_goal_delta)
+            #print("mtb: %.06f ktg: %.06f eot: %.06f"%(mtb,ktg,eot))
+            
+        self.first_step = False
+        #print("r =",reward)
         if done:
             if status == hfo.GOAL:
-                reward = self.observation_space.rewards[act]
+                reward = 5
                 self.observation_space.goals_taken += 1
                 if self.observation_space.goals_taken % 5 == 0:
-                    reward *= 10000
-            else:
-                self.observation_space.taken += 1
-                reward -= 100000000
-                if self.observation_space.taken % 5 == 0:
-                    reward *= 5
+                    reward *= 10
+            #  else:
+                #  self.observation_space.taken += 1
+                #  reward -= 1
+                #  if self.observation_space.taken % 5 == 0:
+                    #  reward *= 5
         return reward
 
     def get_reward_def(self, act, next_state, done, status):
@@ -293,6 +342,25 @@ class HFOEnv(hfo.HFOEnvironment):
                 math.sqrt((0 - ball_x)**2 + 2*(34-ball_y)**2))/(self.pitchHalfLength + 40) - 1)/2
 
         return pot
+
+    def __move_to_ball_reward(self, kickable_delta, ball_prox_delta):
+        reward = 0.
+        if self.env.playerOnBall().unum < 0 or self.env.playerOnBall().unum == self.unum:
+            reward += ball_prox_delta;
+        if kickable_delta >= 1 and not self.got_kickable_reward:
+            reward += 1.
+            self.got_kickable_reward = True
+        return reward;
+        
+    def __kick_to_goal_reward(self, ball_dist_goal_delta):
+        return -ball_dist_goal_delta
+        
+    def __EOT_reward(self):
+        if self.status == hfo_py.GOAL:
+            return 5.
+        #elif self.status == hfo_py.CAPTURED_BY_DEFENSE:
+        #    return -1.
+        return 0.
 
     def clip(self, val, vmin, vmax):
         return min(max(val, vmin), vmax)

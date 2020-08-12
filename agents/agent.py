@@ -14,8 +14,10 @@ def main(team='base'):
         team = 'HELIOS19'
     elif team == 'robocin':
         team = 'RoboCIn'
+    print("start DDPGAgent")
     agent = DDPGAgent(DDPG, False, team=team, port=6000)
     try:
+        print("agent run")
         agent.run()
     except:
         exit(1)
