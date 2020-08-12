@@ -14,6 +14,8 @@ def main(team='base'):
         team = 'HELIOS19'
     elif team == 'robocin':
         team = 'RoboCIn'
+    elif team == 'hfut':
+        team = 'Hfut'
     print("start DDPGAgent")
     agent = DDPGAgent(DDPG, False, team=team, port=6000)
     try:
