@@ -142,6 +142,7 @@ def parseArgs():
   import argparse
   team_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'teams')
   installed_teams = os.listdir(team_dir)
+  # 理论上加入队伍即可
   p = argparse.ArgumentParser(description='Start Half Field Offense.',
                               formatter_class=argparse.RawTextHelpFormatter)
   p.add_argument('--headless', dest='headless', action='store_true',

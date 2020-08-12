@@ -140,6 +140,15 @@ class Trainer(object):
                                  binaryName='cyrus_player', logDir=self._logDir,
                                  record=self._record, host='localhost',
                                  port=self._serverPort)
+        elif requested_team_name == 'hfut':
+            print('Creating team Hfut')
+            team_name = 'Hfut_' + ('left' if play_offense else 'right')
+            team_dir = os.path.join(teams_dir, 'hfut')
+            lib_dir = None
+            return Teams.Hfut(team_name, team_dir, lib_dir,
+                                    binaryName='HfutEngine_Player', logDir=self._logDir,
+                                    record=self._record, host='localhost',
+                                    port=self._serverPort)
         elif requested_team_name == 'robocin':
             print('Creating team RoboCIN2d')
             team_name = 'RoboCIn_' + ('left' if play_offense else 'right')
