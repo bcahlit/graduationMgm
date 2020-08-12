@@ -224,14 +224,14 @@ class Hfut(Team):
             options += ' --record'
         offenseOrder = [11, 7, 8, 9, 10, 6, 3, 2, 4, 5]
         defenseOrder = [2, 3, 4, 5, 6, 7, 8, 11, 9, 10]
-        
+
         super(Hfut, self).__init__(name, binaryPath, libDir, options,
                                     offenseOrder, defenseOrder)
 
     def launch_npc(self, player_num):
         launchOpts = None
-        if player_num == 1:
-            launchOpts = '-g'
+        # if player_num == 1:
+        #     launchOpts = '-g'
         print('Launch npc %s-%d' % (self._name, player_num))
         return self.start_npc_proc(launchOpts)
 
