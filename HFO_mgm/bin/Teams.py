@@ -212,14 +212,14 @@ class Hfut(Team):
     def __init__(self, name, baseDir, libDir, binaryName, logDir, record,
                  host='127.0.0.1', port=6000):
         binaryPath = os.path.join(baseDir, binaryName)
-        
         # basedir 队伍文件位置
         # binaryPath  player二进制文件的位置
         # hfut校队在data里面是配置
 
-        options = '--player-config %s/data/player.conf --config_dir %s/data/formations-dt --log_dir %s '\
+        options = '--player-config %s/data/player.conf --formation-conf %s/data/formation.conf '\
+                  '--formation-conf-dir %s/data/formations-dt --log_dir %s '\
                   '-h %s -t %s -p %i '\
-                  % (baseDir, baseDir, logDir, host, name, port)
+                  % (baseDir, baseDir, baseDir, logDir, host, name, port)
         if record:
             options += ' --record'
         offenseOrder = [11, 7, 8, 9, 10, 6, 3, 2, 4, 5]

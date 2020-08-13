@@ -24,24 +24,21 @@ class DDPGAgent(Agent):
     memory_save_thread = None
 
     def __init__(self, model, per, team='base', port=6000):
-        print("init")
         self.config_env(team, port)
-        print("config_hyper")
         self.config_hyper(per)
-        print("config_model")
         self.config_model(model)
         self.goals = 0
 
     def config_env(self, team, port):
-        print("config")
+        #  print("config")
         self.actions = [hfo.MOVE, hfo.GO_TO_BALL, hfo.SHOOT, hfo.DRIBBLE]
-        print("rewards")
+        #  print("rewards")
         self.rewards = [0, 0, 0, 0]
-        print("HFOEnv")
-        self.hfo_env = HFOEnv(is_offensive=True, play_goalie=False,
+        #  print("HFOEnv")
+        self.hfo_env = HFOEnv(is_offensive=False, play_goalie=False,
                              port=port, continuous=True,
                              team=team)
-        print("set_env")
+        #  print("set_env")
         self.hfo_env.set_env(self.actions, self.rewards, strict=True)
         self.test = True
         self.gen_mem = False
