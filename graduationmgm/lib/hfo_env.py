@@ -47,10 +47,10 @@ class HFOEnv(hfo.HFOEnvironment):
                  play_goalie=False, port=6000,
                  continuous=False, team='base'):
         super(HFOEnv, self).__init__()
-        self.connectToServer(hfo.HIGH_LEVEL_FEATURE_SET, './formations-dt',
+        self.connectToServer(hfo.LOW_LEVEL_FEATURE_SET, './formations-dt',
                              port, 'localhost',
                              team + '_left' if is_offensive else team + '_right',
-                             play_goalie=play_goalie)
+                             play_goalie=play_goalie, record_dir="./log") 
         self.play_goalie = play_goalie
         self.continuous = continuous
 

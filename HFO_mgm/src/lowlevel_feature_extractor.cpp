@@ -3,7 +3,9 @@
 #endif
 
 #include "lowlevel_feature_extractor.h"
+#include <rcsc/common/logger.h>
 #include <rcsc/common/server_param.h>
+#include <sstream>
 
 using namespace rcsc;
 
@@ -35,7 +37,14 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
   addFeature(self.posValid() ? FEAT_MAX : FEAT_MIN);
   // ADD_FEATURE(self_pos.x);
   // ADD_FEATURE(self_pos.y);
-
+  #ifdef ELOG
+    std::stringstream ss;
+    for (int i=0; i<numFeatures; ++i) {
+      ss << feature_vec[i] << " ";
+    }
+    elog.addText(Logger::WORLD, "POS AND BODY %f, %f, %f, vel: %f", self_pos.x, self_pos.y, self_ang.degree(), self.vel().th().degree());
+    elog.flush();
+  #endif
   // Direction and speed of the agent.
   addFeature(self.velValid() ? FEAT_MAX : FEAT_MIN);
   if (self.velValid()) {

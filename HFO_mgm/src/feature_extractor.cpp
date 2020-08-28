@@ -29,7 +29,7 @@ FeatureExtractor::FeatureExtractor(int num_teammates,
   penaltyAreaWidth = SP.penaltyAreaWidth();
 
   // Maximum possible radius in HFO
-  maxHFODist = sqrtf(pitchHalfLength * pitchHalfLength +
+  maxHFODist = sqrtf(pitchLength * pitchLength +
                        pitchWidth * pitchWidth);
 }
 
