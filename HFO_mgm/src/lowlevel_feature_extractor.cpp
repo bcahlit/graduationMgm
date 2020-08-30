@@ -105,21 +105,21 @@ LowLevelFeatureExtractor::ExtractFeatures(const rcsc::WorldModel& wm,
   // Corners of the Playable Area
   rcsc::Vector2D centerField(0, 0);
   addLandmarkFeatures(centerField, self_pos, self_ang);
-  rcsc::Vector2D cornerTopLeft(0, -pitchHalfWidth);
+  rcsc::Vector2D cornerTopLeft(-pitchHalfLength, -pitchHalfWidth);
   addLandmarkFeatures(cornerTopLeft, self_pos, self_ang);
   rcsc::Vector2D cornerTopRight(pitchHalfLength, -pitchHalfWidth);
   addLandmarkFeatures(cornerTopRight, self_pos, self_ang);
   rcsc::Vector2D cornerBotRight(pitchHalfLength, pitchHalfWidth);
   addLandmarkFeatures(cornerBotRight, self_pos, self_ang);
-  rcsc::Vector2D cornerBotLeft(0, pitchHalfWidth);
+  rcsc::Vector2D cornerBotLeft(-pitchHalfLength, pitchHalfWidth);
   addLandmarkFeatures(cornerBotLeft, self_pos, self_ang);
 
   // Distances to being out of bounds (OOB)
   if (self.posValid()) {
     // Distance to being OOB over the Left field line
-    addDistFeature(self_pos.x, (1.1*pitchHalfLength));
+    addDistFeature(self_pos.x + pitchHalfLength, (1.05*pitchLength));
     // Distance to being OOB over the Right field line
-    addDistFeature(pitchHalfLength - self_pos.x, (1.1*pitchHalfLength));
+    addDistFeature(pitchHalfLength - self_pos.x, (1.05*pitchLength));
     // Distance to being OOB over the Top field line
     addDistFeature(pitchHalfWidth + self_pos.y, (1.05*pitchWidth));
     // Distance to being OOB over the Bottom field line
