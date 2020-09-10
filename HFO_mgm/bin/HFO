@@ -70,6 +70,7 @@ def main(args):
                   'server::game_logging=%i server::text_logging=%i ' \
                   'server::hfo_logging=%i server::hfo_log_dir=%s ' \
                   'server::game_log_dir=%s server::text_log_dir=%s '\
+                  'server::game_log_compression=1 -server::text_log_compression=1'\
                   'server::synch_mode=%i server::hfo=1 ' \
                   'server::fullstate_l=%i server::fullstate_r=%i ' \
                   'server::coach_w_referee=1 server::hfo_max_trial_time=%i ' \
